@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AddShoppingItemPage } from '../add-shopping-item/add-shopping-item';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FirebaseListObservable } from 'angularfire2/database';
@@ -15,8 +15,42 @@ export class ShoppingListPage {
   // Reference to our shopping item list inside firebase
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private database: AngularFireDatabase) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private database: AngularFireDatabase, private actionSheetController: ActionSheetController) {
     this.shoppingListRef$ = this.database.list('shopping-list');
+  }
+
+  /*
+     Display an action sheet that gives the user the following actions:
+     1. Edit the shoppingItem
+     2. Delete the shoppingItem
+     3. Cancel selection
+    */
+  selectShoppingItem(shoppingItem: ShoppingItem) {
+    this.actionSheetController.create({
+      title: `${shoppingItem.itemName}`,
+      buttons:[
+        {
+          text: 'Edit',
+          handler: () => {
+            // Send the user to the EditShoppingItemPage and pass the key as a parameter
+          }
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.shoppingListRef$.remove(shoppingItem.$key)
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log("the user has selected the cancel option")
+          }
+        }
+      ]
+    }).present()
   }
 
   navigateToAddShoppingItemPage(){
