@@ -14,10 +14,10 @@ export class AddShoppingItemPage {
   shoppingItem = {} as ShoppingItem;
 
   // Reference to our shopping item list inside firebase
-  shoppingItemRef$: FirebaseListObservable<ShoppingItem[]>;
+  shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private database: AngularFireDatabase) {
-    this.shoppingItemRef$ = this.database.list('shopping-list');
+    this.shoppingListRef$ = this.database.list('shopping-list');
   }
 
   addShoppingItem() {
@@ -25,9 +25,9 @@ export class AddShoppingItemPage {
     Create a new anonymous object and convert itemNumber to number
     Push this to our Firebase database under the 'shopping-list' node
      */
-    this.shoppingItemRef$.push({
+    this.shoppingListRef$.push({
       itemName: this.shoppingItem.itemName,
-      itenNumber: Number(this.shoppingItem.itemNumber)
+      itemNumber: Number(this.shoppingItem.itemNumber)
     });
 
     // Reset our shoppingItem
