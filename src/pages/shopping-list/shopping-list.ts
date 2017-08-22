@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { AddShoppingItemPage } from '../add-shopping-item/add-shopping-item';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
+import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
 
 @Component({
   selector: 'page-shopping-list',
@@ -32,14 +32,16 @@ export class ShoppingListPage {
         {
           text: 'Edit',
           handler: () => {
-            // Send the user to the EditShoppingItemPage and pass the key as a parameter
+            this.navCtrl.push(EditShoppingItemPage, {
+              shoppingItemId: shoppingItem.$key
+            });
           }
         },
         {
           text: 'Delete',
           role: 'destructive',
           handler: () => {
-            this.shoppingListRef$.remove(shoppingItem.$key)
+            this.shoppingListRef$.remove(shoppingItem.$key);
           }
         },
         {
