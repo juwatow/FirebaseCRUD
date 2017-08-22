@@ -6,13 +6,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 import { FIREBASE_CREDENTIALS } from './firebase.credentials'
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    ShoppingListPage
   ],
   imports: [
     BrowserModule,
@@ -21,9 +21,9 @@ import { FIREBASE_CREDENTIALS } from './firebase.credentials'
     AngularFireModule.initializeApp(FIREBASE_CREDENTIALS)
   ],
   bootstrap: [IonicApp],
-  entryComponents: [
+  entryComponents: [ // Used only for pages
     MyApp,
-    HomePage
+    ShoppingListPage
   ],
   providers: [
     StatusBar,
