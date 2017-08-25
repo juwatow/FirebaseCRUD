@@ -5,10 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { FIREBASE_CREDENTIALS } from './firebase.credentials';
+import { FIREBASE_CREDENTIALS } from './app.firebase.config';
 
 import { MyApp } from './app.component';
+import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 import { ShoppingListPage } from '../pages/shopping-list/shopping-list';
 import { AddShoppingItemPage } from '../pages/add-shopping-item/add-shopping-item';
 import { EditShoppingItemPage } from '../pages/edit-shopping-item/edit-shopping-item';
@@ -16,6 +19,8 @@ import { EditShoppingItemPage } from '../pages/edit-shopping-item/edit-shopping-
 @NgModule({
   declarations: [
     MyApp,
+    LoginPage,
+    RegisterPage,
     ShoppingListPage,
     AddShoppingItemPage,
     EditShoppingItemPage
@@ -26,11 +31,14 @@ import { EditShoppingItemPage } from '../pages/edit-shopping-item/edit-shopping-
     // Inititalize AngularFire with credentials fron Firebase
     AngularFireModule.initializeApp(FIREBASE_CREDENTIALS),
     // Import the AngularFireDatabaseModule to use database interactions
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [ // Used only for pages
     MyApp,
+    LoginPage,
+    RegisterPage,
     ShoppingListPage,
     AddShoppingItemPage,
     EditShoppingItemPage

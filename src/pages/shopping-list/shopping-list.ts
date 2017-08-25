@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, ToastController } from 'ionic-angular';
 import { AddShoppingItemPage } from '../add-shopping-item/add-shopping-item';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { ShoppingItem } from '../../models/shopping-item/shopping-item.interface';
 import { EditShoppingItemPage } from '../edit-shopping-item/edit-shopping-item';
 
+@IonicPage()
 @Component({
   selector: 'page-shopping-list',
   templateUrl: 'shopping-list.html',
@@ -15,8 +17,30 @@ export class ShoppingListPage {
   // Reference to our shopping item list inside firebase
   shoppingListRef$: FirebaseListObservable<ShoppingItem[]>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private database: AngularFireDatabase, private actionSheetController: ActionSheetController) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    private database: AngularFireDatabase,
+    private actionSheetController: ActionSheetController,
+    private afAuth: AngularFireAuth,
+    private toast: ToastController) {
     this.shoppingListRef$ = this.database.list('shopping-list');
+  }
+
+  ionViewWillLoad() {
+    this.afAuth.authState.subscribe(data => {
+      if(data && data.uid && data.email) {
+        this.toast.create({
+          message: `Welcome to APP_NAME, ${data.email}`,
+          duration: 3000
+        }).present();
+      }
+      else{
+        this.toast.create({
+          message: `Could not find authentication details`,
+          duration: 3000
+        }).present();
+      }
+    });
   }
 
   /*
